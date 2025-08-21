@@ -8,8 +8,6 @@ import SettingsDialog from './components/SettingsDialog'
 import Dashboards from './components/Dashboards'
 import InsightsPie from './components/InsightsPie'
 
-type StatusOrNew = Status | 'new_opportunities'
-
 export default function App(){
   const [team,setTeam]=useState<Member[]>(()=>get('team',[
     {id:'t1',name:'Alberto Frascari',email:''},
@@ -45,7 +43,7 @@ export default function App(){
       const l2 = l2s[(i+1)%l2s.length] as any
       const fam = fams[i%fams.length] as any
       const title = `Opportunity #${200+i}`
-      const status: StatusOrNew = i%5===0? 'done' : (i%4===0?'in_charge_procurement' : i%3===0?'in_charge_technical' : i%2===0?'on_going':'to_do')
+      const status: Status = i%5===0? 'done' : (i%4===0?'in_charge_procurement' : i%3===0?'in_charge_technical' : i%2===0?'on_going':'to_do')
       const history: any[] = [{status:'new_opportunities',at:created}]
       if(status!=='new_opportunities'){ history.push({status:'to_do',at:addDays(created,0.5)}) }
       if(['on_going','in_charge_technical','in_charge_procurement','in_charge_operations','in_charge_strategic','done'].includes(status)){ history.push({status:'on_going',at:addDays(created,1)}) }
@@ -72,7 +70,7 @@ export default function App(){
 
   const [items,setItems]=useState<Opportunity[]>(()=>get('items', demoItems))
   const [q,setQ]=useState('')
-  const [searchScope,setSearchScope]=useState<'board'|'sent'|'won'|'lost'|'deleted'|'all'>('board')
+  const [searchScope,setSearchScope]=useState<'board'|'sent'|'won'|'lost'|'all'>('board')
   const [assigneeFilter,setAssigneeFilter]=useState<string>('')
   const [tab,setTab]=useState<'board'|'dash'|'archive'|'insights'>('board')
   const [archTab,setArchTab]=useState<'sent'|'won'|'lost'|'deleted'>('sent')

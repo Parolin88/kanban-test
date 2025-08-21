@@ -1,115 +1,34 @@
-// src/lib/types.ts
+import type { FirstLevel, SecondLevel, Status, PhaseKey, ProductFamily } from './constants'
+export type Member = { id:string; name:string; email?:string; specialties?: ProductFamily[] }
+export type Sales = { id:string; name:string; email?:string }
+export type Stamp = { status: Status; at: string }
+export type FunctionalOwnerIds = Partial<Record<'technical'|'procurement'|'operations'|'strategic', string>>
+export type FunctionalDone = Partial<Record<'technical'|'procurement'|'operations'|'strategic', boolean>>
+export type OpportunityState = 'open'|'standby'|'waiting_customer'|'waiting_sales'|'lost'|'won'
+export type LostReason = 'price'|'technology'|'lead_time'|'other'
+export type DeletedReason = 'price'|'technology'|'lead_time'|'other'
+export type WonReason = 'price'|'technology'|'lead_time'|'relationship'|'other'
+export type Opportunity = {
+  id: string; code?: string; title: string; customer?: string; requesterId?: string; region?: 'EMEA'|'AMER'|'APAC';
+  description?: string; intercompany?: boolean;
+  firstLevel?: FirstLevel; secondLevel?: SecondLevel; productFamily?: ProductFamily; keyAccount?: boolean;
+  assigneeId?: string; salesId?: string; functionalOwnerIds?: FunctionalOwnerIds; functionalDone?: FunctionalDone;
+  createdAt: string; dueAt?: string; plannedDueAt?: string; clientRequestedDueAt?: string; urs?: boolean; ursExtraDays?: number;
+  status: Status; statusHistory: Stamp[]; revision?: number; rush?: boolean;
+  state?: OpportunityState; lostReason?: LostReason; wonReason?: WonReason; poDate?: string; contractValue?: number;
+  valueOffered?: number; deliveryTimeMonths?: number;
+  archivedAt?: string;
+  deletedReason?: DeletedReason;
+}
+export type Archives = { sent: Opportunity[]; won: Opportunity[]; lost: Opportunity[]; deleted: Opportunity[] }
 
-// Kanban status values used across the app (board + support lanes)
-export type Status =
-  | 'new_opportunities'
-  | 'to_do'
-  | 'on_going'
-  | 'in_charge_technical'
-  | 'in_charge_procurement'
-  | 'in_charge_operations'
-  | 'in_charge_strategic'
-  | 'done';
-
-// Narrower union used in some places for archive filters / searches
-export type ArchiveTab = 'all' | 'sent' | 'won' | 'lost' | 'deleted';
-
-export interface Member {
+export type AuditEvent = {
   id: string;
-  name: string;
-  email: string;
-  specialties?: string[];
-}
-
-export interface Sales {
-  id: string;
-  name: string;
-  email: string;
-}
-
-export interface FunctionalOwnerIds {
-  technical?: string;
-  procurement?: string;
-  operations?: string;
-  strategic?: string;
-}
-
-export interface StatusRecord {
-  status: Status;
-  at: string; // ISO date
-}
-
-export interface Opportunity {
-  id: string;
-  title: string;
-  description?: string;
-
-  // basic meta
-  customer?: string;
-  code?: string;
-  region?: string;
-
-  // relations
-  requesterId?: string;   // sales requester
-  assigneeId?: string;    // current owner on board
-  salesId?: string;       // optional link to Sales
-
-  // lifecycle
-  createdAt: string;      // ISO date
-  status: Status;
-  statusHistory: StatusRecord[];
-
-  // classification
-  firstLevel?: string;    // L1
-  secondLevel?: string;   // L2
-  productFamily?: string;
-  intercompany?: boolean;
-  keyAccount?: boolean;
-
-  // functional ownership / completion
-  functionalOwnerIds?: FunctionalOwnerIds;
-  functionalDone: Record<string, boolean>;
-
-  // planning / due dates
-  clientRequestedDueAt?: string; // ISO
-  plannedDueAt?: string;         // ISO
-  dueAt?: string;                // ISO (used in some cards)
-  poDate?: string;               // Purchase order date (won)
-
-  // state flags
-  state?: 'open' | 'waiting_customer' | 'waiting_sales' | 'won' | 'lost';
-
-  // economics
-  valueOffered?: number;
-  contractValue?: number;
-  deliveryTimeMonths?: number;
-
-  // extra parameters
-  revision?: number;
-  rush?: boolean;
-  urs?: boolean;
-  ursExtraDays?: number;
-
-  // archive info
-  archivedAt?: string;      // when moved to archive
-  lostReason?: string;
-  deletedReason?: string;
-}
-
-export interface AuditEvent {
-  id: string;
-  at: string; // ISO
-  type: 'created' | 'status_change' | 'deleted';
-  opp: string;
+  at: string;
+  type: 'created'|'deleted'|'status_change';
+  opp?: string;
   from?: string;
   to?: string;
   by?: string;
   note?: string;
-}
-
-export interface Archives {
-  sent: Opportunity[];
-  won: Opportunity[];
-  lost: Opportunity[];
-  deleted: Opportunity[];
 }
