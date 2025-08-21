@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import type { Member, Sales } from '../lib/types'
 import { L1, L2, PRODUCT_FAMILIES, DEFAULT_L2_HOURS, DEFAULT_GANTT } from '../lib/constants'
 import { uid } from '../lib/utils'
@@ -7,14 +8,14 @@ export default function SettingsDialog({
   team, setTeam, sales, setSales, notify, setNotify, l2Hours, setL2Hours, gantt, setGantt,
   techLeads, setTechLeads, procLeads, setProcLeads, opsLeads, setOpsLeads, stratLeads, setStratLeads
 }:{
-  team:Member[]; setTeam:(t:Member[])=>void; sales:Sales[]; setSales:(s:Sales[])=>void;
-  notify:{mode:'mailto'|'webhook'; url?:string; sender?:string}; setNotify:(n:any)=>void;
-  l2Hours:Record<string,number>; setL2Hours:(m:Record<string,number>)=>void;
-  gantt:any; setGantt:(g:any)=>void;
-  techLeads:Member[]; setTechLeads:(x:Member[])=>void;
-  procLeads:Member[]; setProcLeads:(x:Member[])=>void;
-  opsLeads:Member[]; setOpsLeads:(x:Member[])=>void;
-  stratLeads:Member[]; setStratLeads:(x:Member[])=>void;
+  team:Member[]; setTeam: Dispatch<SetStateAction<Member[]>>; sales:Sales[]; setSales: Dispatch<SetStateAction<Sales[]>>;
+  notify:{mode:'mailto'|'webhook'; url?:string; sender?:string}; setNotify: Dispatch<SetStateAction<{mode:'mailto'|'webhook'; url?:string; sender?:string}>>;
+  l2Hours:Record<string,number>; setL2Hours: Dispatch<SetStateAction<Record<string,number>>>;
+  gantt:any; setGantt: Dispatch<SetStateAction<any>>;
+  techLeads:Member[]; setTechLeads: Dispatch<SetStateAction<Member[]>>;
+  procLeads:Member[]; setProcLeads: Dispatch<SetStateAction<Member[]>>;
+  opsLeads:Member[]; setOpsLeads: Dispatch<SetStateAction<Member[]>>;
+  stratLeads:Member[]; setStratLeads: Dispatch<SetStateAction<Member[]>>;
 }){
 
   const [open,setOpen]=useState(false)
@@ -49,7 +50,7 @@ export default function SettingsDialog({
     setLocalGantt(g)
   }
 
-  const renderDir = (arr:Member[], setArr:(x:Member[])=>void, withSpecialties:boolean)=> (<div>
+  const renderDir = (arr:Member[], setArr: Dispatch<SetStateAction<Member[]>>, withSpecialties:boolean)=> (<div>
     {arr.map(m=> (<div key={m.id} style={{display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:8,alignItems:'start',marginTop:8}}>
       <div><input className="select" value={m.name} onChange={e=>setArr(t=>t.map(x=>x.id===m.id?{...x,name:e.target.value}:x))}/></div>
       <div><input className="select" placeholder="email" value={m.email??''} onChange={e=>setArr(t=>t.map(x=>x.id===m.id?{...x,email:e.target.value}:x))}/></div>

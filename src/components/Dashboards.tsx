@@ -385,13 +385,13 @@ export default function Dashboards({ items, archives, team, sales, l2Hours, gant
       return (<ResponsiveContainer><LineChart data={winsSeries}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="period" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledEUR(n, scaleValue)}/><Tooltip formatter={(v)=>[fmtScaledEUR(v, scaleValue),'Order Intake']}/><Legend/><Line type="monotone" dataKey="orderIntake" dot={false}/></LineChart></ResponsiveContainer>)
     }
     if(t==='workload'){
-      return (<ResponsiveContainer><BarChart data={workload}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Hours']}/><Legend/><Bar dataKey="hours">{workload.map((d:any,i:number)=>(<Cell key={d.name} fill={PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
+      return (<ResponsiveContainer><BarChart data={workload}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Hours']}/><Legend/><Bar dataKey="hours">{workload.map((d:any,i:number)=>(<Cell key={d.name} fill={(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
     }
     if(t==='outcome'){
-      return (<ResponsiveContainer><BarChart data={outcome}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="k" tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Count']}/><Legend/><Bar dataKey="v">{outcome.map((d:any,i:number)=>(<Cell key={d.k} fill={PALETTE.outcome[d.k]||PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
+      return (<ResponsiveContainer><BarChart data={outcome}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="k" tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Count']}/><Legend/><Bar dataKey="v">{outcome.map((d:any,i:number)=>(<Cell key={d.k} fill={(PALETTE.outcome as Record<string,string>)[d.k]||(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
     }
     if(t==='won_by_dim'){
-      return (<ResponsiveContainer><BarChart data={dimWon}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledEUR(n, scaleValue)}/><Tooltip formatter={(v)=>[fmtScaledEUR(v, scaleValue),'Value']}/><Legend/><Bar dataKey="value">{dimWon.map((d:any,i:number)=>(<Cell key={d.name} fill={PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
+      return (<ResponsiveContainer><BarChart data={dimWon}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledEUR(n, scaleValue)}/><Tooltip formatter={(v)=>[fmtScaledEUR(v, scaleValue),'Value']}/><Legend/><Bar dataKey="value">{dimWon.map((d:any,i:number)=>(<Cell key={d.name} fill={(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>)
     }
     if(t==='prog_offers'){
       return (<ResponsiveContainer><LineChart data={overlayOffers}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="idx" tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v,n)=>[fmtScaledCount(v, scaleCount), String(n)]}/><Legend/>{yearsToPlot.map(y=> <Line key={y} type="monotone" dataKey={String(y)} dot={false}/>)}</LineChart></ResponsiveContainer>)
@@ -432,14 +432,14 @@ export default function Dashboards({ items, archives, team, sales, l2Hours, gant
     {series.workload && (<div className="card" style={{marginTop:12}}>
       <div className="title">Workload by Team Member (hours, based on L2)</div>
       <div style={{width:'100%', height:320}}>
-        <ResponsiveContainer><BarChart data={workload}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Hours']}/><Legend/><Bar dataKey="hours">{workload.map((d:any,i:number)=>(<Cell key={d.name} fill={PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
+        <ResponsiveContainer><BarChart data={workload}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Hours']}/><Legend/><Bar dataKey="hours">{workload.map((d:any,i:number)=>(<Cell key={d.name} fill={(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
       </div>
     </div>)}
 
     <div className="card" style={{marginTop:12}}>
       <div className="title">Outcome Snapshot</div>
       <div style={{width:'100%', height:280}}>
-        <ResponsiveContainer><BarChart data={outcome}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="k" tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Count']}/><Legend/><Bar dataKey="v">{outcome.map((d:any,i:number)=>(<Cell key={d.k} fill={PALETTE.outcome[d.k]||PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
+        <ResponsiveContainer><BarChart data={outcome}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="k" tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} tickFormatter={(n)=>fmtScaledCount(n, scaleCount)}/><Tooltip formatter={(v)=>[fmtScaledCount(v, scaleCount),'Count']}/><Legend/><Bar dataKey="v">{outcome.map((d:any,i:number)=>(<Cell key={d.k} fill={(PALETTE.outcome as Record<string,string>)[d.k]||(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
       </div>
     </div>
 
@@ -454,7 +454,7 @@ export default function Dashboards({ items, archives, team, sales, l2Hours, gant
         </select>
       </div>
       <div style={{width:'100%', height:320}}>
-        <ResponsiveContainer><BarChart data={dimWon}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledEUR(n, scaleValue)}/><Tooltip formatter={(v)=>[fmtScaledEUR(v, scaleValue),'Value']}/><Legend/><Bar dataKey="value">{dimWon.map((d:any,i:number)=>(<Cell key={d.name} fill={PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
+        <ResponsiveContainer><BarChart data={dimWon}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name" tick={{ fontSize: 11 }} /><YAxis tickFormatter={(n)=>fmtScaledEUR(n, scaleValue)}/><Tooltip formatter={(v)=>[fmtScaledEUR(v, scaleValue),'Value']}/><Legend/><Bar dataKey="value">{dimWon.map((d:any,i:number)=>(<Cell key={d.name} fill={(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar></BarChart></ResponsiveContainer>
       </div>
     </div>
 
@@ -517,7 +517,7 @@ export default function Dashboards({ items, archives, team, sales, l2Hours, gant
               <YAxis domain={[0,100]} tickFormatter={(n)=>nf.format(Number(n))+'%'} />
               <Tooltip formatter={(v)=>[nf.format(Number(v))+'%','On-time']}/>
               <Legend/>
-              <Bar dataKey="onTimePct">{slaOnTime.map((d:any)=>(<Cell key={d.phase} fill={PALETTE.ontimeByPhase[(d.phaseKey||d.phase||"internal").toLowerCase().replace(" & ","_").replace(" ","_")]||PALETTE.line}/>))}</Bar>
+              <Bar dataKey="onTimePct">{slaOnTime.map((d:any)=>(<Cell key={d.phase} fill={(PALETTE.ontimeByPhase as Record<string,string>)[(d.phaseKey||d.phase||"internal").toLowerCase().replace(" & ","_").replace(" ","_")]||PALETTE.line}/>))}</Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -531,7 +531,7 @@ export default function Dashboards({ items, archives, team, sales, l2Hours, gant
             <YAxis tickFormatter={(n)=>nf.format(Number(n))} />
             <Tooltip formatter={(v)=>[nf.format(Number(v)),'Avg overrun (days)']}/>
             <Legend/>
-            <Bar dataKey="overrun">{bottlenecks.map((d:any,i:number)=>(<Cell key={d.name} fill={PALETTE.bars[i%PALETTE.bars.length]} />))}</Bar>
+            <Bar dataKey="overrun">{bottlenecks.map((d:any,i:number)=>(<Cell key={d.name} fill={(PALETTE.bars as string[])[i%PALETTE.bars.length]} />))}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

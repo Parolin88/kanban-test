@@ -12,7 +12,7 @@ export type Opportunity = {
   id: string; code?: string; title: string; customer?: string; requesterId?: string; region?: 'EMEA'|'AMER'|'APAC';
   description?: string; intercompany?: boolean;
   firstLevel?: FirstLevel; secondLevel?: SecondLevel; productFamily?: ProductFamily; keyAccount?: boolean;
-  assigneeId?: string; functionalOwnerIds?: FunctionalOwnerIds; functionalDone?: FunctionalDone;
+  assigneeId?: string; salesId?: string; functionalOwnerIds?: FunctionalOwnerIds; functionalDone?: FunctionalDone;
   createdAt: string; dueAt?: string; plannedDueAt?: string; clientRequestedDueAt?: string; urs?: boolean; ursExtraDays?: number;
   status: Status; statusHistory: Stamp[]; revision?: number; rush?: boolean;
   state?: OpportunityState; lostReason?: LostReason; wonReason?: WonReason; poDate?: string; contractValue?: number;
